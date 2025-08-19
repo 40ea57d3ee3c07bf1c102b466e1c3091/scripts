@@ -1,7 +1,7 @@
 if game.PlaceId ~= 18687417158 then
     return
 end
-
+print("woohoo")
 local Players = game:GetService("Players")
 local Client = game:GetService("ReplicatedStorage")
 
