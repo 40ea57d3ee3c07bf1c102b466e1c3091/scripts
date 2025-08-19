@@ -1,1 +1,77 @@
+if game.PlaceId ~= 18687417158 then
+    return
+end
 
+local Players = game:GetService("Players")
+local Client = game:GetService("ReplicatedStorage")
+
+local Player = Players.LocalPlayer
+
+local Character = Player.Character
+
+Player.CharacterAdded:Connect(function(New)
+    Character = New
+end)
+
+local function ServerHop()
+    local servers = {}
+    local req = http_request({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true", game.PlaceId)})
+    local body = game.HttpService:JSONDecode(req.Body)
+    if body and body.data then
+        for i, v in next, body.data do
+            if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
+                table.insert(servers, 1, v.id)
+            end
+        end
+    end
+    if #servers > 0 then
+        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, servers[math.random(1,#servers)])
+    else
+        ServerHop()
+    end
+end -- skidded from iy
+
+
+local function DoGenerator(Generator)
+    local Remotes = Generator.Remotes
+    local Positions = Generator.Positions
+    local Center = Positions.Center
+
+    Character.HumanoidRootPart.CFrame = Center.CFrame
+    task.wait(.2)
+    Remotes.RF:InvokeServer("enter")
+    task.wait(.2)
+    Remotes.RE:FireServer()
+end
+
+
+local function CompleteGenerators()
+    local Map = workspace.Map.Ingame.Map
+
+    for i = 1, 4 do        
+        if not Map then
+            ServerHop()
+        end
+        for _, Generator in Map:GetChildren() do
+            if Generator.Name == "Generator" and Generator.Progress.Value ~= 100 then
+                DoGenerator(Generator)
+                task.wait(0.1)
+            end
+        end
+    end
+end
+
+queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/40ea57d3ee3c07bf1c102b466e1c3091/sturdy-octo-palm-tree/master/source'))()")
+
+if Client.RoundTimer:GetAttribute("TimeLeft") > 30 and Client.RoundTimer == "Round ends in:" then
+    ServerHop()
+end
+
+repeat task.wait() until Client.RoundTimer.Value == "Round begins in:" or Player.Character.Parent == workspace.Players.Survivors
+
+repeat 
+    task.wait() 
+until Client.RoundTimer.Value == "Round ends in:" and not workspace.Misc:FindFirstChild("KillerCutsceneBackground")
+
+CompleteGenerators()
+ServerHop()
