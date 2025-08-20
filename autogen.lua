@@ -63,7 +63,7 @@ local function CompleteGenerators()
     end
 end
 
-queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/40ea57d3ee3c07bf1c102b466e1c3091/sturdy-octo-palm-tree/master/source'))()")
+queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/40ea57d3ee3c07bf1c102b466e1c3091/scripts/master/autogen.lua'))()")
 
 if Client.RoundTimer:GetAttribute("TimeLeft") > 30 and Client.RoundTimer == "Round ends in:" then
     ServerHop()
