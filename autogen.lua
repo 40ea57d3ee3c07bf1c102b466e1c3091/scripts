@@ -3,7 +3,7 @@ if game.PlaceId ~= 18687417158 or Running then
 end
 
 getgenv().Running = true
-print("woohoo")
+
 local Players = game:GetService("Players")
 local Client = game:GetService("ReplicatedStorage")
 
