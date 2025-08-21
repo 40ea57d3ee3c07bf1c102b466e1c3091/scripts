@@ -21,7 +21,7 @@ local function ServerHop()
     local body = game.HttpService:JSONDecode(req.Body)
     if body and body.data then
         for i, v in next, body.data do
-            if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
+            if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.playing ~= v.maxPlayers and v.id ~= game.JobId then
                 table.insert(servers, 1, v.id)
             end
         end
