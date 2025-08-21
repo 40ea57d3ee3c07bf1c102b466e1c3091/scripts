@@ -2,6 +2,8 @@ if game.PlaceId ~= 18687417158 or Running then
     return
 end
 
+repeat task.wait() until game:IsLoaded()
+
 getgenv().Running = true
 
 local Players = game:GetService("Players")
@@ -9,7 +11,7 @@ local Client = game:GetService("ReplicatedStorage")
 
 local Player = Players.LocalPlayer
 
-local Character
+local Character = Player.Character
 
 Player.CharacterAdded:Connect(function(New)
     Character = New
