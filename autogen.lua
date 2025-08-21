@@ -41,7 +41,8 @@ local function DoGenerator(Generator)
 
     Character.HumanoidRootPart.CFrame = Center.CFrame
     task.wait(.2)
-    Remotes.RF:InvokeServer("enter")
+    local Response = Remotes.RF:InvokeServer("enter")
+    print(Response)
     task.wait(.2)
     Remotes.RE:FireServer()
 end
