@@ -9,7 +9,7 @@ local Client = game:GetService("ReplicatedStorage")
 
 local Player = Players.LocalPlayer
 
-local Character = Player.Character
+local Character
 
 Player.CharacterAdded:Connect(function(New)
     Character = New
